@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { getCoins, getCoin, getCoinHistory } from "../services";
+import { getCoins, getCoin, getCoinHistory } from "../services/coins"
 
 export const useCoins = (limit = 20, offset = 0) =>
   useQuery({
     queryKey: ["coins", limit, offset],
     queryFn: () => getCoins(limit, offset),
   });
-
+  
 export const useCoin = (uuid) =>
   useQuery({
     queryKey: ["coin", uuid],

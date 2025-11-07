@@ -2,7 +2,10 @@ import { api } from "./api";
 
 export async function getCoins(limit = 20, offset = 0) {
   const { data } = await api.get("/coins", { params: { limit, offset } });
-  return data?.data?.coins ?? [];
+  return {
+    coins: data?.data?.coins ?? [],
+    stats: data?.data?.stats ?? null,
+  };
 }
 
 export async function getCoin(uuid) {

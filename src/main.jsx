@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
+import { MantineProvider } from '@mantine/core';
 import "boxicons/css/boxicons.min.css";
 import './index.css'
 import App from './App.jsx'
@@ -11,9 +12,11 @@ const queryClient = new QueryClient();
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
+    <MantineProvider>
     <QueryClientProvider client={queryClient}>
       <App />
       </QueryClientProvider>
+      </MantineProvider>
     </BrowserRouter>
   </StrictMode>,
 )
