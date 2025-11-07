@@ -17,7 +17,7 @@ const Header = () =>{
                 <HearthIcon  to="/favourites"><i className='bx bx-heart'></i></HearthIcon>
             </NavList>
             <UserBadge to="/profile">
-            <i class='bx  bx-user' ></i> 
+            <i className='bx  bx-user' ></i> 
             </UserBadge>
         </HeaderDiv>
     )
