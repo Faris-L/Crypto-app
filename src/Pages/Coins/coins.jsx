@@ -16,8 +16,8 @@ const Coins = () => {
   const coins = data?.coins ?? [];
   const stats = data?.stats;
 
-  const totalPages = Math.max(1, Math.ceil((stats?.total || 0) / LIMIT));
- 
+  const rawTotalPages = Math.max(1, Math.ceil((stats?.total || 0) / LIMIT));
+  const totalPages = Math.min(rawTotalPages, 9);
   useEffect(() => {
     setPage(1);
   }, [query]);
