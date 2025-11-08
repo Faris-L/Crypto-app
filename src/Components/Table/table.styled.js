@@ -12,6 +12,7 @@ export const Tr = styled.tr`
   border-bottom: 1px solid #e8e8e8;
   transition: background-color 0.15s ease;
   height: 52px;
+  cursor: pointer;
 `;
 
 export const Th = styled.th`

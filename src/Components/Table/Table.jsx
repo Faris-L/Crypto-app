@@ -16,6 +16,7 @@ import {
   FavoriteBtn,
   DetailsBtn
 } from "./table.styled";
+import { useNavigate } from "react-router-dom";
 import { Sparklines, SparklinesLine } from "react-sparklines";
 // import { useFavorites, useToggleFavorite } from "../../queries/favorites";
 import { useQueryClient , useMutation } from "@tanstack/react-query";
@@ -71,7 +72,7 @@ const toggleFavoriteMutation = useMutation({
 const favorites = queryClient.getQueryData(["favorites"]) || getFavorites();
 
 
-
+  const navigate = useNavigate();
   return (
     <Table>
       <thead>
@@ -88,7 +89,7 @@ const favorites = queryClient.getQueryData(["favorites"]) || getFavorites();
 
       <tbody>
         {coins.map((coin) => (
-          <Tr key={coin.uuid}>
+          <Tr key={coin.uuid} onClick={() => navigate(`/coin/${coin.uuid}`)}>
             <Td>
               <Rank>{coin.rank}</Rank>
             </Td>
