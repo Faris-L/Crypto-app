@@ -1,16 +1,16 @@
-import PageLayout from "./Components/PageLayout/pagelayout"
-import DataTable from "./Components/Table/Table"
-import Coins from "./Pages/Coins/coins"
+import { Routes, Route } from "react-router-dom";
+import PageLayout from "./Components/PageLayout/pagelayout";
+import Coins from "./Pages/Coins/coins"; 
 
-function App() {
- 
 
+export default function App() {
   return (
-    <>
-      {/* <PageLayout/> */}
-      <Coins/>
-    </>
-  )
+    <Routes>
+      <Route element={<PageLayout />}>
+        <Route index element={<Coins />} />
+       
+        <Route path="*" element={<div>Not found</div>} />
+      </Route>
+    </Routes>
+  );
 }
-
-export default App

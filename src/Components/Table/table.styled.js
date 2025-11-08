@@ -8,6 +8,7 @@ export const Table = styled.table`
 
 export const Tr = styled.tr`
   border-bottom: 1px solid #e8e8e8;
+  cursor: pointer;
 `;
 
 export const Th = styled.th`
