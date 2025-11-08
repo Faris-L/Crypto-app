@@ -16,9 +16,11 @@ import {
   FavoriteBtn,
   DetailsBtn
 } from "./table.styled";
+import { useNavigate } from "react-router-dom";
 import { Sparklines, SparklinesLine } from "react-sparklines";
 
 const CoinsTable = ({ coins }) => {
+  const navigate = useNavigate();
   return (
     <Table>
       <thead>
@@ -35,7 +37,7 @@ const CoinsTable = ({ coins }) => {
 
       <tbody>
         {coins.map((coin) => (
-          <Tr key={coin.uuid}>
+          <Tr key={coin.uuid} onClick={() => navigate(`/coin/${coin.uuid}`)}>
             <Td>
               <Rank>{coin.rank}</Rank>
             </Td>

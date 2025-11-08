@@ -10,6 +10,7 @@ export async function getCoins(limit = 20, offset = 0) {
 
 export async function getCoin(uuid) {
   const { data } = await api.get(`/coin/${uuid}`);
+   console.log("FULL API RESPONSE:", data);
   return data?.data?.coin;
 }
 
