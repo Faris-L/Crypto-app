@@ -1,13 +1,18 @@
 import styled from "styled-components";
 
 export const LayoutWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    align-items: center;
-`
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  align-items: center;
+  background: #fff;
+`;
 
 export const Main = styled.div`
   flex: 1;
-  padding-top: 69px;
+  width: 95%;
+  max-width: 1000px;
+  padding: 60px 20px;
+  margin: 0 auto;
+  box-sizing: border-box;
 `;

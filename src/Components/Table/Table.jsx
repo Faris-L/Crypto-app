@@ -18,8 +18,60 @@ import {
 } from "./table.styled";
 import { useNavigate } from "react-router-dom";
 import { Sparklines, SparklinesLine } from "react-sparklines";
+// import { useFavorites, useToggleFavorite } from "../../queries/favorites";
+import { useQueryClient , useMutation } from "@tanstack/react-query";
+import { notifications } from "@mantine/notifications";
 
 const CoinsTable = ({ coins }) => {
+   const queryClient = useQueryClient();
+
+const getFavorites = () => {
+  const saved = localStorage.getItem("favorites");
+  return saved ? JSON.parse(saved) : [];
+};
+
+const toggleFavoriteMutation = useMutation({
+  mutationFn: (coin) => {
+    const current = getFavorites();
+    const isFavorite = current.some((fav) => fav.uuid === coin.uuid);
+    let updated;
+
+    if (isFavorite) {
+      updated = current.filter((fav) => fav.uuid !== coin.uuid);
+      notifications.show({
+  title: "Removed from favorites",
+  message: `${coin.name} has been removed from your favorites.`,
+  color: "red",
+  radius: "md",
+  withCloseButton: false,
+  autoClose: 2500,
+});
+
+    } else {
+      updated = [...current, coin];
+  notifications.show({
+  title: "Added to favorites",
+  message: `${coin.name} was added to your favorites!`,
+  color: "teal",
+  radius: "md",
+  withCloseButton: false,
+  autoClose: 2500,
+});
+
+    }
+
+    localStorage.setItem("favorites", JSON.stringify(updated));
+    return updated;
+  },
+
+  onSuccess: (updatedFavorites) => {
+    queryClient.setQueryData(["favorites"], updatedFavorites);
+  },
+});
+
+const favorites = queryClient.getQueryData(["favorites"]) || getFavorites();
+
+
   const navigate = useNavigate();
   return (
     <Table>
@@ -74,7 +126,15 @@ const CoinsTable = ({ coins }) => {
 
             <Td>
               <Actions>
-                <FavoriteBtn>❤</FavoriteBtn>
+                <FavoriteBtn
+  onClick={() => toggleFavoriteMutation.mutate(coin)}
+  style={{
+    color: favorites.some((fav) => fav.uuid === coin.uuid) ? "red" : "#e66",
+  }}
+>
+  ❤
+</FavoriteBtn>
+
                 <DetailsBtn>🔍</DetailsBtn>
               </Actions>
             </Td>

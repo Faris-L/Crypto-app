@@ -1,27 +1,32 @@
 import styled from "styled-components";
 
 export const Table = styled.table`
-  width: 100%;
+  width: 90%;
+  margin: 25px auto;
   border-collapse: collapse;
-  margin-top: 20px;
+  border-spacing: 0;
+  box-sizing: border-box;
 `;
 
 export const Tr = styled.tr`
   border-bottom: 1px solid #e8e8e8;
+  transition: background-color 0.15s ease;
+  height: 52px;
   cursor: pointer;
 `;
 
 export const Th = styled.th`
   text-align: left;
-  padding: 14px 10px;
+  padding: 8px 10px;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 14px;
   color: #333;
 `;
 
 export const Td = styled.td`
-  padding: 12px 10px;
-  font-size: 15px;
+  padding: 8px 10px;
+  font-size: 14px;
+  vertical-align: middle;
 `;
 
 export const Rank = styled.div`
@@ -31,17 +36,17 @@ export const Rank = styled.div`
 export const NameBox = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 `;
 
 export const Logo = styled.img`
-  width: 32px;
-  height: 32px;
+  width: 26px;
+  height: 26px;
 `;
 
 export const Name = styled.div`
   font-weight: 600;
-  font-size: 15px;
+  font-size: 14px;
 `;
 
 export const Symbol = styled.div`
@@ -63,8 +68,8 @@ export const MarketCap = styled.div`
 `;
 
 export const ChartBox = styled.div`
-  width: 140px;
-  height: 40px;
+  width: 120px;
+  height: 32px;
   img {
     width: 100%;
     height: 100%;
@@ -81,20 +86,22 @@ export const Actions = styled.div`
 export const FavoriteBtn = styled.button`
   background: none;
   border: none;
-  font-size: 18px;
+  font-size: 17px;
   cursor: pointer;
   color: #e66;
+  transition: transform 0.12s ease;
   &:hover {
-    scale: 1.15;
+    transform: scale(1.15);
   }
 `;
 
 export const DetailsBtn = styled.button`
   background: none;
   border: none;
-  font-size: 18px;
+  font-size: 17px;
   cursor: pointer;
+  transition: transform 0.12s ease;
   &:hover {
-    scale: 1.15;
+    transform: scale(1.15);
   }
 `;
