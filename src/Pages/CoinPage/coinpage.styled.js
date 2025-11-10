@@ -4,6 +4,7 @@ import { SparklinesLine, SparklinesSpots } from "react-sparklines";
 
 export const Page = styled.div`
   padding: 16px 16px 40px;
+  width: 100%;
 `;
 
 export const Top = styled.div`
