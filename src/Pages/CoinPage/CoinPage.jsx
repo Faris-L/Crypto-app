@@ -11,6 +11,7 @@ import {
   Muted, Change, GlowLine, MainLine,IconWrap
 } from "./coinpage.styled";
 
+
 export default function CoinPage() {
   const { uuid } = useParams();
   const { data: coin, isLoading, isError } = useCoin(uuid);
