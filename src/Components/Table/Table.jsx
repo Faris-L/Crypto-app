@@ -16,9 +16,8 @@ import {
   FavoriteBtn,
   DetailsBtn
 } from "./table.styled";
-import { useNavigate } from "react-router-dom";
+
 import { Sparklines, SparklinesLine } from "react-sparklines";
-// import { useFavorites, useToggleFavorite } from "../../queries/favorites";
 import { useQueryClient , useMutation } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 
@@ -39,25 +38,23 @@ const toggleFavoriteMutation = useMutation({
     if (isFavorite) {
       updated = current.filter((fav) => fav.uuid !== coin.uuid);
       notifications.show({
-  title: "Removed from favorites",
-  message: `${coin.name} has been removed from your favorites.`,
-  color: "red",
-  radius: "md",
-  withCloseButton: false,
-  autoClose: 2500,
-});
-
+        title: "Removed from favorites",
+        message: `${coin.name} has been removed from your favorites.`,
+        color: "red",
+        radius: "md",
+        withCloseButton: false,
+        autoClose: 2500,
+      });
     } else {
       updated = [...current, coin];
-  notifications.show({
-  title: "Added to favorites",
-  message: `${coin.name} was added to your favorites!`,
-  color: "teal",
-  radius: "md",
-  withCloseButton: false,
-  autoClose: 2500,
-});
-
+      notifications.show({
+        title: "Added to favorites",
+        message: `${coin.name} was added to your favorites!`,
+        color: "teal",
+        radius: "md",
+        withCloseButton: false,
+        autoClose: 2500,
+      });
     }
 
     localStorage.setItem("favorites", JSON.stringify(updated));
@@ -71,8 +68,6 @@ const toggleFavoriteMutation = useMutation({
 
 const favorites = queryClient.getQueryData(["favorites"]) || getFavorites();
 
-
-  const navigate = useNavigate();
   return (
     <Table>
       <thead>
