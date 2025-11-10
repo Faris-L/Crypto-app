@@ -25,11 +25,11 @@ export const useToggleFavorite = () => {
 
   return (coin) => {
     const current = getFavorites();
-    const exists = current.find((f) => f.id === coin.id);
+    const exists = current.find((f) => f.uuid === coin.uuid);
     let updated;
 
     if (exists) {
-      updated = current.filter((f) => f.id !== coin.id);
+      updated = current.filter((f) => f.uuid !== coin.uuid);
     } else {
       updated = [...current, coin];
     }

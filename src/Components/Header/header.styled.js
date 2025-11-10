@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 export const HeaderDiv = styled.div`
+    position: fixed;
     display: flex;
     margin: 0 auto;
     justify-content: space-around;
@@ -9,6 +10,7 @@ export const HeaderDiv = styled.div`
     width: 100%;
     padding: 0 60px;
     background-color:   #1E293B;
+    z-index: 5000;
     @media (max-width: 750px) {
         display: flex;
         flex-direction: column;
