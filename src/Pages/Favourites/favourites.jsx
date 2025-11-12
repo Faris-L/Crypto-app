@@ -112,7 +112,7 @@ const Favorites = () => {
                 >
                   ❤
                 </FavoriteBtn>
-                <DetailsBtn>🧮</DetailsBtn>
+                <DetailsBtn>?</DetailsBtn>
               </Actions>
             </Td>
           </Tr>
