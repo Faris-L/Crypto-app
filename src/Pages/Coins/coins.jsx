@@ -3,6 +3,7 @@ import PaginationBar from "../../Components/Pagination/Pagination";
 import { useCoins } from "../../queries/coins";
 import Search from "../../Components/SearchBar/search";
 import CoinsTable from "../../Components/Table/Table";
+import { Loader } from "@mantine/core";
 import CalculatorModal from "../../Components/Kalkulator/kalkulator";
 
 const LIMIT = 12;
@@ -35,7 +36,20 @@ const Coins = () => {
     );
   }, [coins, query]);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading)
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          marginTop: "80px",
+        }}
+      >
+        <Loader color="blue" size="lg" />
+      </div>
+    );
 
   return (
     <div>

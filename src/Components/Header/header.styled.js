@@ -11,6 +11,7 @@ export const HeaderDiv = styled.div`
     padding: 0 60px;
     background-color:   #1E293B;
     z-index: 5000;
+    margin-bottom: 25rem;
     @media (max-width: 750px) {
         display: flex;
         flex-direction: column;

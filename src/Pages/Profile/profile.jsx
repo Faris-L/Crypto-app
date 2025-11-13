@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Modal, Button, Checkbox, NumberInput, Group, Text, Loader } from "@mantine/core";
+import { Modal, Button, Checkbox, NumberInput, Group, Text, Loader, ActionIcon } from "@mantine/core";
+import { IconX } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
 import {
   HeroContainer,
@@ -123,6 +124,25 @@ const Profile = () => {
     },
   });
 
+  const removeMutation = useMutation({
+    mutationFn: (uuid) => {
+      const existing = readWallet();
+      const updated = existing.filter((item) => item.uuid !== uuid);
+      writeWallet(updated);
+      return updated;
+    },
+    onSuccess: (newWallet) => {
+      queryClient.setQueryData(["wallet"], newWallet);
+      notifications.show({
+        title: "Removed",
+        message: "Coin removed from wallet.",
+        color: "red",
+        autoClose: 1500,
+        withCloseButton: false,
+      });
+    },
+  });
+
   const handleAdd = () => {
     const hasAnything = Object.values(selections).some((v) => v.checked && Number(v.amount) > 0);
     if (!hasAnything) {
@@ -147,7 +167,6 @@ const Profile = () => {
           </HeroText>
           <WalletButton onClick={() => setDrawerOpen(true)}>CRYPTO WALLET</WalletButton>
         </HeroLeft>
-
         <HeroImage src={cryptoImage} alt="Crypto App Preview" />
       </HeroContainer>
 
@@ -159,9 +178,6 @@ const Profile = () => {
         {wallet.length === 0 ? (
           <WalletEmpty>
             <p>No coins added yet.</p>
-            <Button variant="outline" onClick={() => setDrawerOpen(true)}>
-              Add coins
-            </Button>
           </WalletEmpty>
         ) : (
           <WalletList>
@@ -174,6 +190,14 @@ const Profile = () => {
                     {c.amount} {c.symbol} — ${(c.amount * c.price).toLocaleString(undefined, { maximumFractionDigits: 2 })}
                   </div>
                 </WalletItemInfo>
+                <ActionIcon
+                  variant="subtle"
+                  color="red"
+                  onClick={() => removeMutation.mutate(c.uuid)}
+                  style={{ marginLeft: "auto" }}
+                >
+                  <IconX size={18} />
+                </ActionIcon>
               </WalletItem>
             ))}
           </WalletList>
@@ -181,84 +205,79 @@ const Profile = () => {
       </WalletSection>
 
       <Modal
-  opened={drawerOpen}
-  onClose={() => setDrawerOpen(false)}
-  title="Add to Wallet"
-  size="70%"
-  centered
-  overlayOpacity={0.55}
-  overlayBlur={2}
-  transition="fade"
-  transitionDuration={400}
-  zIndex={5000}
->
-  {coinsLoading ? (
-    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "40vh" }}>
-      <Loader color="blue" size="lg" />
-    </div>
-  ) : (
-    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-      <div style={{ display: "flex", gap: 12, alignItems: "center", justifyContent: "space-between" }}>
-        <div style={{ fontWeight: 700 }}>Select coins to add</div>
-      </div>
-
-      <div style={{ overflowY: "auto", maxHeight: "56vh" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead>
-            <tr style={{ textAlign: "left", borderBottom: "1px solid #eee" }}>
-              <th style={{ padding: "10px 8px" }}>Rank</th>
-              <th style={{ padding: "10px 8px" }}>Name</th>
-              <th style={{ padding: "10px 8px" }}>Price</th>
-              <th style={{ padding: "10px 8px" }}>MarketCap</th>
-              <th style={{ padding: "10px 8px" }}>Buy</th>
-              <th style={{ padding: "10px 8px" }}>Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            {coins.map((coin) => {
-              const sel = selections[coin.uuid] ?? { checked: false, amount: 0 };
-              return (
-                <tr key={coin.uuid} style={{ borderBottom: "1px solid #f1f1f1" }}>
-                  <td style={{ padding: "14px 8px", width: 60 }}>{coin.rank}</td>
-                  <td style={{ padding: "14px 8px", display: "flex", alignItems: "center", gap: 12 }}>
-                    <img src={coin.iconUrl} alt={coin.name} style={{ width: 28, height: 28 }} />
-                    <div>
-                      <div style={{ fontWeight: 600 }}>{coin.name}</div>
-                      <div style={{ color: "#777", fontSize: 13 }}>{coin.symbol}</div>
-                    </div>
-                  </td>
-                  <td style={{ padding: "14px 8px" }}>${Number(coin.price).toLocaleString()}</td>
-                  <td style={{ padding: "14px 8px" }}>${Number(coin.marketCap).toLocaleString()}</td>
-                  <td style={{ padding: "10px 8px" }}>
-                    <Checkbox checked={Boolean(sel.checked)} onChange={() => toggleSelection(coin.uuid)} />
-                  </td>
-                  <td style={{ padding: "10px 8px", width: 140 }}>
-                    <NumberInput
-                    value={sel.amount}
-                    onChange={(v) => setAmount(coin.uuid, v)}
-                    min={0}
-                    step={1}
-                    precision={0}
-                    clampBehavior="strict"
-                    placeholder="0"
-                    />
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-
-      <Group position="right" style={{ marginTop: 8 }}>
-        <Button onClick={handleAdd} loading={addMutation.isLoading}>
-          ADD
-        </Button>
-      </Group>
-    </div>
-  )}
-</Modal>
-
+        opened={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        title="Add to Wallet"
+        size="70%"
+        centered
+        overlayOpacity={0.55}
+        overlayBlur={2}
+        transition="fade"
+        transitionDuration={400}
+        zIndex={5000}
+      >
+        {coinsLoading ? (
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "40vh" }}>
+            <Loader color="blue" size="lg" />
+          </div>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <div style={{ fontWeight: 700 }}>Select coins to add</div>
+            <div style={{ overflowY: "auto", maxHeight: "56vh" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                <thead>
+                  <tr style={{ textAlign: "left", borderBottom: "1px solid #eee" }}>
+                    <th style={{ padding: "10px 8px" }}>Rank</th>
+                    <th style={{ padding: "10px 8px" }}>Name</th>
+                    <th style={{ padding: "10px 8px" }}>Price</th>
+                    <th style={{ padding: "10px 8px" }}>MarketCap</th>
+                    <th style={{ padding: "10px 8px" }}>Buy</th>
+                    <th style={{ padding: "10px 8px" }}>Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {coins.map((coin) => {
+                    const sel = selections[coin.uuid] ?? { checked: false, amount: 0 };
+                    return (
+                      <tr key={coin.uuid} style={{ borderBottom: "1px solid #f1f1f1" }}>
+                        <td style={{ padding: "14px 8px", width: 60 }}>{coin.rank}</td>
+                        <td style={{ padding: "14px 8px", display: "flex", alignItems: "center", gap: 12 }}>
+                          <img src={coin.iconUrl} alt={coin.name} style={{ width: 28, height: 28 }} />
+                          <div>
+                            <div style={{ fontWeight: 600 }}>{coin.name}</div>
+                            <div style={{ color: "#777", fontSize: 13 }}>{coin.symbol}</div>
+                          </div>
+                        </td>
+                        <td style={{ padding: "14px 8px" }}>${Number(coin.price).toLocaleString()}</td>
+                        <td style={{ padding: "14px 8px" }}>${Number(coin.marketCap).toLocaleString()}</td>
+                        <td style={{ padding: "10px 8px" }}>
+                          <Checkbox checked={Boolean(sel.checked)} onChange={() => toggleSelection(coin.uuid)} />
+                        </td>
+                        <td style={{ padding: "10px 8px", width: 140 }}>
+                          <NumberInput
+                            value={sel.amount}
+                            onChange={(v) => setAmount(coin.uuid, v)}
+                            min={0}
+                            step={1}
+                            precision={0}
+                            clampBehavior="strict"
+                            placeholder="0"
+                          />
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+            <Group position="right" style={{ marginTop: 8 }}>
+              <Button onClick={handleAdd} loading={addMutation.isLoading}>
+                ADD
+              </Button>
+            </Group>
+          </div>
+        )}
+      </Modal>
     </>
   );
 };

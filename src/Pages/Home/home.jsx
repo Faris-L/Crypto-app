@@ -1,6 +1,8 @@
 // src/Pages/Home/home.jsx
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { Loader } from "@mantine/core"; // ⬅️ added
+import { getCoins } from "../../services/coins"; 
 import { getCoins } from "../../services/coins";
 import CoinsTable from "../../Components/Table/Table";
 import CalculatorModal from "../../Components/Kalkulator/kalkulator";
@@ -19,16 +21,26 @@ export default function Home() {
     staleTime: 300_000,
   });
 
-  // 2) Ovo ide PRE ranih return-ova
-  const coins = data?.coins ?? [];
-  const filtered = useMemo(() => {
-    const q = search.trim().toLowerCase();
-    if (!q) return coins;
-    return coins.filter((c) => c.name?.toLowerCase().includes(q));
-  }, [coins, search]);
+  const coins = data?.coins || [];
+  const filtered = coins.filter((coin) =>
+    coin.name.toLowerCase().includes(search.toLowerCase())
+  );
 
-  // 3) Tek sada rani return-ovi
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          marginTop: "80px",
+        }}
+      >
+        <Loader color="blue" size="lg" />
+      </div>
+    );
+
   if (isError) return <div>Failed to load coins.</div>;
 
   // 4) Render
@@ -36,13 +48,12 @@ export default function Home() {
     <HomeWrapper>
       <HeaderSpace />
       <HeroSection>
-        <img src={homeImg} alt="Crypto App" />
+        <img src={homeImg} />
         <div className="hero-text">
           <h1>Crypto App</h1>
           <p>The definitive way of tracking cryptocurrency online</p>
         </div>
       </HeroSection>
-
       <SearchBar value={search} onChange={(e) => setSearch(e.target.value)} />
 
       <CoinsTable
@@ -57,4 +68,6 @@ export default function Home() {
       />
     </HomeWrapper>
   );
-}
+};
+
+export default Home;
