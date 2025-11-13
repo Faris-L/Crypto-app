@@ -1,5 +1,21 @@
 import { useState } from "react";
-import { Table, Th, Td, Tr, Logo, NameBox, Name, Symbol, Price, Volume, MarketCap, ChartBox, Actions, FavoriteBtn, DetailsBtn } from "../../Components/Table/table.styled";
+import {
+  Table,
+  Th,
+  Td,
+  Tr,
+  Logo,
+  NameBox,
+  Name,
+  Symbol,
+  Price,
+  Volume,
+  MarketCap,
+  ChartBox,
+  Actions,
+  FavoriteBtn,
+  DetailsBtn,
+} from "../../Components/Table/table.styled";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 import { Sparklines, SparklinesLine } from "react-sparklines";
@@ -11,7 +27,7 @@ const getFavorites = () => JSON.parse(localStorage.getItem("favorites")) || [];
 
 const Favorites = () => {
   const queryClient = useQueryClient();
-  const [calcCoin, setCalcCoin] = useState(null);  
+  const [calcCoin, setCalcCoin] = useState(null);
 
   const toggleFavoriteMutation = useMutation({
     mutationFn: (coin) => {
@@ -43,7 +59,8 @@ const Favorites = () => {
     },
   });
 
-  const favorites = queryClient.getQueryData(["favorites"]) || getFavorites();
+  const favorites =
+    queryClient.getQueryData(["favorites"]) || getFavorites();
 
   if (favorites.length === 0) {
     return (
@@ -62,62 +79,6 @@ const Favorites = () => {
   }
 
   return (
-    <Table>
-      <thead>
-        <Tr>
-          <Th>Name</Th>
-          <Th>Price</Th>
-          <Th>24h Volume</Th>
-          <Th>MarketCap</Th>
-          <Th>Chart</Th>
-          <Th></Th>
-        </Tr>
-      </thead>
-
-      <tbody>
-        {favorites.map((coin) => (
-          <Tr key={coin.uuid}>
-            <Td>
-              <NameBox>
-                <Logo src={coin.iconUrl} />
-                <div>
-                  <Name>{coin.name}</Name>
-                  <Symbol>{coin.symbol}</Symbol>
-                </div>
-              </NameBox>
-            </Td>
-
-            <Td>
-              <Price>${Number(coin.price).toLocaleString()}</Price>
-            </Td>
-
-            <Td>
-              <Volume>${Number(coin["24hVolume"]).toLocaleString()}</Volume>
-            </Td>
-
-            <Td>
-              <MarketCap>${Number(coin.marketCap).toLocaleString()}</MarketCap>
-            </Td>
-
-            <Td>
-              <ChartBox>
-                <Sparklines data={coin.sparkline?.map(Number)}>
-                  <SparklinesLine style={{ strokeWidth: 2 }} />
-                </Sparklines>
-              </ChartBox>
-            </Td>
-
-            <Td>
-              <Actions>
-                <FavoriteBtn
-                  onClick={() => toggleFavoriteMutation.mutate(coin)}
-                  style={{ color: "red" }}
-                >
-                  ❤
-                </FavoriteBtn>
-                <DetailsBtn>?</DetailsBtn>
-              </Actions>
-            </Td>
     <>
       <Table>
         <thead>
@@ -149,11 +110,15 @@ const Favorites = () => {
               </Td>
 
               <Td>
-                <Volume>${Number(coin["24hVolume"]).toLocaleString()}</Volume>
+                <Volume>
+                  ${Number(coin["24hVolume"]).toLocaleString()}
+                </Volume>
               </Td>
 
               <Td>
-                <MarketCap>${Number(coin.marketCap).toLocaleString()}</MarketCap>
+                <MarketCap>
+                  ${Number(coin.marketCap).toLocaleString()}
+                </MarketCap>
               </Td>
 
               <Td>
@@ -185,6 +150,7 @@ const Favorites = () => {
           ))}
         </tbody>
       </Table>
+
       <CalculatorModal
         open={!!calcCoin}
         coin={calcCoin}

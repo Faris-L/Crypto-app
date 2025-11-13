@@ -1,8 +1,7 @@
-// src/Pages/Home/home.jsx
+
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Loader } from "@mantine/core"; // ⬅️ added
-import { getCoins } from "../../services/coins"; 
+import { Loader } from "@mantine/core"; 
 import { getCoins } from "../../services/coins";
 import CoinsTable from "../../Components/Table/Table";
 import CalculatorModal from "../../Components/Kalkulator/kalkulator";
@@ -11,7 +10,7 @@ import SearchBar from "../../Components/SearchBar/search";
 import homeImg from "../../assets/logokripto.png";
 
 export default function Home() {
-  // 1) HOOKS NA VRHU – bez uslovnih grananja
+  
   const [search, setSearch] = useState("");
   const [calcCoin, setCalcCoin] = useState(null);
 
@@ -43,7 +42,7 @@ export default function Home() {
 
   if (isError) return <div>Failed to load coins.</div>;
 
-  // 4) Render
+
   return (
     <HomeWrapper>
       <HeaderSpace />
@@ -70,4 +69,4 @@ export default function Home() {
   );
 };
 
-export default Home;
+
