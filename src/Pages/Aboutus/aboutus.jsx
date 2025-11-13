@@ -14,19 +14,19 @@ import farisslika from "../../assets/faris.jpeg";
 const team = [
   {
     id: 1,
-    name: "Hamza Fijuljanin",
+    name: "Faris Lakota",
     location: "NOVI PAZAR, SERBIA",
     description:
-      "Dženan is a mathematician, and he work's in center NIT as a Web developer",
+      "Faris work's in center NIT as a Web developer",
     image: hamzinaslika, 
     github: "https://github.com/",
   },
   {
     id: 2,
-    name: "Faris Lakota",
+    name: "Hamza Fijuljanin",
     location: "NOVI PAZAR, SERBIA",
     description:
-      "Senad work's in center NIT as a Web developer",
+      "Hamza work's in center NIT as a Web developer",
     image: farisslika, 
     github: "https://github.com/",
   },
