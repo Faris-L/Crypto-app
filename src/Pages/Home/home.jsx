@@ -1,19 +1,24 @@
-import { useState } from "react";
+// src/Pages/Home/home.jsx
+import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Loader } from "@mantine/core"; // ⬅️ added
 import { getCoins } from "../../services/coins"; 
+import { getCoins } from "../../services/coins";
 import CoinsTable from "../../Components/Table/Table";
+import CalculatorModal from "../../Components/Kalkulator/kalkulator";
 import { HomeWrapper, HeaderSpace, HeroSection } from "./home.styled";
 import SearchBar from "../../Components/SearchBar/search";
-import homeImg from "../../assets/logokripto.png"
+import homeImg from "../../assets/logokripto.png";
 
-const Home = () => {
+export default function Home() {
+  // 1) HOOKS NA VRHU – bez uslovnih grananja
   const [search, setSearch] = useState("");
+  const [calcCoin, setCalcCoin] = useState(null);
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["homeCoins"],
     queryFn: () => getCoins(10, 0),
-    staleTime: 300000,
+    staleTime: 300_000,
   });
 
   const coins = data?.coins || [];
@@ -38,6 +43,7 @@ const Home = () => {
 
   if (isError) return <div>Failed to load coins.</div>;
 
+  // 4) Render
   return (
     <HomeWrapper>
       <HeaderSpace />
@@ -49,7 +55,17 @@ const Home = () => {
         </div>
       </HeroSection>
       <SearchBar value={search} onChange={(e) => setSearch(e.target.value)} />
-      <CoinsTable coins={filtered} />
+
+      <CoinsTable
+        coins={filtered}
+        onOpenCalculator={(coin) => setCalcCoin(coin)}
+      />
+
+      <CalculatorModal
+        open={!!calcCoin}
+        coin={calcCoin}
+        onClose={() => setCalcCoin(null)}
+      />
     </HomeWrapper>
   );
 };

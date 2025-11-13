@@ -1,9 +1,7 @@
 import styled from "styled-components";
 
 export const Table = styled.table`
-  width: 85%;
-  max-width: 1100px;
-  margin: 40px auto;
+  width: 90%;
   border-collapse: collapse;
   border-spacing: 0;
   box-sizing: border-box;
@@ -85,7 +83,8 @@ export const ChartBox = styled.div`
 
 export const Actions = styled.div`
   display: flex;
-  gap: 12px;
+
+  justify-content: space-between;
   align-items: center;
 `;
 

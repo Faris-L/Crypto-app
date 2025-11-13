@@ -14,7 +14,7 @@ export const useCoin = (uuid) =>
     enabled: !!uuid,
   });
 
-export const useCoinHistory = (uuid, period = "7d") =>
+export const useCoinHistory = (uuid, period = "24h") =>
   useQuery({
     queryKey: ["history", uuid, period],
     queryFn: () => getCoinHistory(uuid, period),

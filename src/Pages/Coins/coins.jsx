@@ -4,12 +4,14 @@ import { useCoins } from "../../queries/coins";
 import Search from "../../Components/SearchBar/search";
 import CoinsTable from "../../Components/Table/Table";
 import { Loader } from "@mantine/core";
+import CalculatorModal from "../../Components/Kalkulator/kalkulator";
 
 const LIMIT = 12;
 
 const Coins = () => {
   const [page, setPage] = useState(1);
   const [query, setQuery] = useState("");
+  const [calcCoin, setCalcCoin] = useState(null);
 
   const offset = (page - 1) * LIMIT;
 
@@ -51,9 +53,20 @@ const Coins = () => {
 
   return (
     <div>
-      <Search value={query} onChange={setQuery} />
-      <CoinsTable coins={filtered} />
+      <Search
+        value={query}
+        onChange={(v) => setQuery(typeof v === "string" ? v : v?.target?.value ?? "")}
+      />
+      <CoinsTable
+        coins={filtered}
+        onOpenCalculator={(coin) => setCalcCoin(coin)} 
+      />
       <PaginationBar total={totalPages} page={page} onChange={setPage} />
+      <CalculatorModal
+        open={!!calcCoin}
+        coin={calcCoin}
+        onClose={() => setCalcCoin(null)}
+      />
     </div>
   );
 };
